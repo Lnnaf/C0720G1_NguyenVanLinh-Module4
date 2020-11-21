@@ -11,7 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Rate: ${rate}</h1>
 <h1>${usd} $= ${result} VND</h1>
 </body>
 </html>
