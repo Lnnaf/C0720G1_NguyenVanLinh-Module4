@@ -1,5 +1,5 @@
 package service;
 
 public interface ITransferService {
-        double transfer(String usd);
+        double transfer(Double usd);
 }

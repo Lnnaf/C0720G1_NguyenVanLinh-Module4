@@ -9,7 +9,7 @@ import service.IDictionaryService;
 
 
 @Controller
-public class dictionaryController {
+public class DictionaryController {
     @Autowired
     private IDictionaryService dictionaryService;
     @GetMapping("/search")
