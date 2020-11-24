@@ -15,15 +15,15 @@
   <body>
   <h1>Super Calculator </h1>
 
-  <form>
+  <form method="post">
     <label for="num1">First number:</label>
     <input type="text" id="num1" name="num1"><br><br>
     <label for="num2">Second number:</label>
     <input type="text" id="num2" name="num2"><br><br>
-    <button type="submit" formaction="/plus">Addition(+)</button>
-    <button type="submit" formaction="/sub">Subtraction(-)</button>
-    <button type="submit" formaction="/multi">Multiplication(X)</button>
-    <button type="submit" formaction="/division">Division(/)</button>
+    <button type="submit" formaction="/operator?action=add">Addition(+)</button>
+    <button type="submit" formaction="/operator?action=sub">Subtraction(-)</button>
+    <button type="submit" formaction="/operator?action=multi">Multiplication(X)</button>
+    <button type="submit" formaction="/operator?action=division">Division(/)</button>
   </form>
   <h2>Result ${operator} : ${result}</h2>
   </body>
