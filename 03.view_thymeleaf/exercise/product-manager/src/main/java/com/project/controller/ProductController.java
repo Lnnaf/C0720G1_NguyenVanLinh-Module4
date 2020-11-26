@@ -48,4 +48,16 @@ public class ProductController {
         model.addAttribute("product", productService.findById(id));
         return "/detail";
     }
+    @GetMapping("/create")
+    public String create(Model model) {
+        model.addAttribute("customer", new Product());
+        return "/create";
+    }
+    @PostMapping("/save")
+    public String save(Product customer, RedirectAttributes redirect) {
+        customer.setId((int)(Math.random() * 10000));
+        productService.save(customer);
+        redirect.addFlashAttribute("success", "Saved customer successfully!");
+        return "redirect:/";
+    }
 }
