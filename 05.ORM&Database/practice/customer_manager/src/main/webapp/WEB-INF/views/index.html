@@ -1,0 +1,74 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="layout::head">
+    <title>List student</title>
+</head>
+<body>
+
+<!--<p style="color: green" th:text="${message}"></p>-->
+<table class="table table-hover">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>address</th>
+        <th>Action</th>
+    </tr>
+    <th:block th:each="customer : ${listCustomer}">
+        <tr>
+            <td th:text="${customer.id}"></td>
+            <td th:text="${customer.name}"></td>
+            <td th:text="${customer.age}"></td>
+            <td th:text="${customer.address}"></td>
+            <td><a href="#" data-toggle="modal" data-target="#modelId"
+                   th:onclick="|injectData('${customer.name}', '${customer.age}','${customer.address}')|">Edit</a></td>
+        </tr>
+    </th:block>
+</table>
+<!-- Modal -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/create" method="post" th:object="${customer}">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}">
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="text" class="form-control" id="age" th:field="*{age}">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" id="address" th:field="*{address}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function injectData(name, age, address) {
+
+        document.getElementById("name").value = name;
+        document.getElementById("age").value = age;
+        document.getElementById("address").value = address;
+    }
+</script>
+<!--    <footer th:insert="common::footerStudent"></footer>-->
+<!--    <th:block th:insert="common::footerStudent"></th:block>-->
+<div th:replace="layout::js"></div>
+<footer th:replace="common::footerStudent"></footer>
+</body>
+</html>
