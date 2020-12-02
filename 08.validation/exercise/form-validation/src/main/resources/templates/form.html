@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/create" method="post" th:object="${user}">
+    <label for="fname">First Name</label>
+    <input id="fname" type="text" th:field="*{user_first_name}">
+    <p th:if="${#fields.hasErrors('user_first_name')}" th:errors="*{user_first_name}"></p>
+    <label for="lname">Last Name</label>
+    <input id="lname" type="text" th:field="*{user_last_name}">
+    <p th:if="${#fields.hasErrors('user_last_name')}" th:errors="*{user_last_name}"></p>
+    <label for="phone">Phone</label>
+    <input id="phone" type="text" th:field="*{phone}">
+    <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></p>
+    <label for="date">Date</label>
+    <input id="date" type="date" th:field="*{date}">
+    <p th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></p>
+    <button type="submit"> Create </button>
+</form>
+<style>
+    p{
+        color: red;
+    }
+</style>
+</body>
+</html>
