@@ -11,6 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.transaction.Transactional;
 
@@ -42,11 +43,12 @@ public class BookController {
         return "rent-book";
     }
     @PostMapping("rent")
-    public String rent(@ModelAttribute Bill bill) throws Exception {
+    public String rent(@ModelAttribute Bill bill,RedirectAttributes redirectAttributes) throws Exception {
         bill.setRentDate(billService.getToDay());
         Books books = bookService.findById(bill.getBooks().getIdBook());
       bookService.save(bookService.updateAmountBook("down",books));
       billService.saveBill(bill);
+        redirectAttributes.addFlashAttribute("message","Success !");
         return "redirect:/";
     }
     @GetMapping("list-bill")
@@ -56,10 +58,11 @@ public class BookController {
         return "list-bill";
     }
     @GetMapping("return")
-    public String rent(@RequestParam int id) throws Exception {
+    public String rent(@RequestParam int id, RedirectAttributes redirectAttributes) throws Exception {
         Books books = bookService.findById(billService.findById(id).getBooks().getIdBook());
         bookService.save(bookService.updateAmountBook("up",books));
         billService.remove(id);
+        redirectAttributes.addFlashAttribute("message","Success !");
         return "redirect:/";
     }
 

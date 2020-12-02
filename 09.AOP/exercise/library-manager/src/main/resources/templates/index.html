@@ -74,7 +74,21 @@
         </div>
         <!-- page title area end -->
         <div class="main-content-inner">
-
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                           <h5 style="color: #1e7e34" th:text="${message}" id="message"></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- order list area start -->
             <div class="card mt-5">
                 <div class="card-body">
@@ -122,7 +136,19 @@
 </div>
 <!-- page container area end -->
 <div th:replace="layout::lib-script">
+
 </div>
+<!-- Script -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var message = /*[[${message}]]*/ 'default';
+ if((message==='Success !')){
+     $('#myModal').modal('show');
+ }
+
+    /*]]>*/
+</script>
 </body>
 
 </html>
