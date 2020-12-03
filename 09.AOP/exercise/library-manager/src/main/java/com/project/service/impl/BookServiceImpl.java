@@ -28,17 +28,24 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Books updateAmountBook(String action, Books bookObj) throws Exception {
-        if(bookObj.getAmount()<=0){
-            throw new Exception("out of stock");
-        }
-        switch (action){
-            case "up":
+        if(bookObj.getAmount()<= 0) {
+            if(!action.equals("down")){
                 bookObj.setAmount(bookObj.getAmount()+1);
-                break;
-            case "down":
-                bookObj.setAmount(bookObj.getAmount()-1);
-                break;
+            }else {
+                throw new Exception("out of stock");
+            }
+        }else {
+            switch (action){
+                case "up":
+                    bookObj.setAmount(bookObj.getAmount()+1);
+                    break;
+                case "down":
+                    bookObj.setAmount(bookObj.getAmount()-1);
+                    break;
+            }
         }
+
+
 
         return bookObj;
     }

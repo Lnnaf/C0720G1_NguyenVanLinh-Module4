@@ -52,7 +52,7 @@ public class BookController {
         return "redirect:/";
     }
     @GetMapping("list-bill")
-    public String returnBook(Model model,@PageableDefault(size = 2)Pageable pageable){
+    public String returnBook(Model model,@PageableDefault(size = 5)Pageable pageable){
         model.addAttribute("billObj",new Bill());
         model.addAttribute("listBill",billService.findAll(pageable));
         return "list-bill";

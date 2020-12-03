@@ -51,10 +51,10 @@
             <div class="row align-items-center">
                 <div class="col-sm-6">
                     <div class="breadcrumbs-area clearfix">
-                        <h4 class="page-title pull-left">Dashboard</h4>
+                        <h4 class="page-title pull-left">Rent Books</h4>
                         <ul class="breadcrumbs pull-left">
-                            <li><a href="index.html">Home</a></li>
-                            <li><span>Dashboard</span></li>
+                            <li><a th:href="@{/}">Home</a></li>
+                            <li><span>Rents Books</span></li>
                         </ul>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
         <div class="main-content-inner">
             <form action="/book/rent" th:object="${billObj}" method="post">
                 <div class="form-group" >
-                    <input th:field="*{books.idBook}" th:text="${bookObj.idBook}" type="text" class="form-control" id="name1" aria-describedby="emailHelp">
+                    <input th:field="*{books.idBook}" th:value="${bookObj.idBook}" type="text" class="form-control" id="name1" aria-describedby="emailHelp" hidden>
                 </div>
                 <div class="form-group">
                     <label for="name">Name Book</label>
@@ -112,6 +112,15 @@
 <div th:replace="layout::lib-script">
 
 </div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    let idBook = /*[[${bookObj.idBook}]]*/ 'default';
+    console.log(idBook);
+    document.getElementById('name1').value = idBook;
+
+    /*]]>*/
+</script>
 </body>
 
 </html>
