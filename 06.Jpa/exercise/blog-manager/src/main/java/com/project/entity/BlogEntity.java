@@ -14,6 +14,9 @@ public class BlogEntity {
     String content;
     String img_url;
     String date;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    Category category;
     public BlogEntity() {
     }
 
@@ -63,5 +66,13 @@ public class BlogEntity {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

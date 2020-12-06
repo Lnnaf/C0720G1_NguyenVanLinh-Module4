@@ -62,7 +62,6 @@ public class ProductController {
         product.setId_product(productService.randomId());
         this.productService.save(product);
         redirectAttributes.addFlashAttribute("message", "Register successfully!");
-
         return "redirect:/";
     }
 

@@ -79,5 +79,5 @@ public class User  {
     public void setDate(String date) {
         this.date = date;
     }
-    
+
 }

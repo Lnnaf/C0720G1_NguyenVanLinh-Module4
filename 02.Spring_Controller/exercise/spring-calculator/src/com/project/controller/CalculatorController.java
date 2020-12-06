@@ -45,6 +45,4 @@ public class CalculatorController {
         }
         return "index";
     }
-
-
 }

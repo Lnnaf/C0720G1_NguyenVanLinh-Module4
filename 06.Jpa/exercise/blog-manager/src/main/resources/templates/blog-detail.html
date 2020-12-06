@@ -11,12 +11,14 @@
 </header>
 
 <div class="main-wrapper">
-
+    <nav th:replace="layout::navbar">
+    </nav>
     <article class="blog-post px-3 py-5 p-md-5">
         <div class="container">
             <header class="blog-post-header">
                 <h2 th:text="${blog.name}" class="title mb-2"></h2>
                 <div class="meta mb-3"><span class="date" th:text=" ${'Published '+blog.date}"></span></div>
+                <div class="meta mb-3"><span class="date" th:text=" ${'Category '+blog.category.name}"></span></div>
             </header>
 
             <div class="blog-post-body">
