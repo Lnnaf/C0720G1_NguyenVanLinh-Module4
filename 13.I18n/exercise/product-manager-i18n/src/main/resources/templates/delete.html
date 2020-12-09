@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head th:replace="~{layout::head}">
+<head>
+</head>
+<body>
+
+<form th:action="@{/delete(id=*{id_product})}" method="post" th:object="${product}">
+    <div class="form-group">
+        <label for="id">ID</label>
+        <input type="text" class="form-control" id="id" th:field="*{id_product}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <input type="text" class="form-control" id="Name" th:field="*{name_product}" >
+    </div>
+    <div class="form-group">
+        <label for="Date">Date</label>
+        <input type="date" class="form-control" id="Date" th:field="*{date}">
+    </div>
+    <div class="form-group">
+        <label for="Country">Country</label>
+        <input type="text" class="form-control" id="Country" th:field="*{country}" >
+    </div>
+
+    <button type="submit" class="btn btn-primary">Delete</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head th:replace="~{layout::head}">
+
+</head>
+<body>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col" th:text="#{table.id}">ID</th>
+        <th scope="col" th:text="#{table.name}">Name</th>
+        <th scope="col" th:text="#{table.date}">Date</th>
+        <th scope="col" th:text="#{table.country}">Country</th>
+        <th scope="col" th:text="#{table.action}">Action</th>
+        <th scope="col" ></th>
+        <th scope="col" th:text="#{table.id}"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product,index:${product}">
+        <td th:text="${index.index}"></td>
+        <td th:text="${product.id_product}"></td>
+        <td th:text="${product.name_product}"></td>
+        <td th:text="${product.date}"></td>
+        <td th:text="${product.country}"></td>
+        <td ><a th:href="@{/edit(id=${product.id_product})}" th:text="#{table.edit}"></a></td>
+        <td ><a th:href="@{/delete(id=${product.id_product})} " th:text="#{table.delete}"></a></td>
+        <td ><a th:href="@{/detail(id=${product.id_product})}" th:text="#{table.detail}"></a></td>
+
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/create}">
+    <button type="button" class="btn btn-primary" th:text="#{table.create}"></button>
+</a><br>
+<h2 style="color:green "class="notify">
+    <div th:if="${message}">
+        <span th:text="${message}"></span>
+    </div>
+</h2>
+
+
+</body>
+</html>
