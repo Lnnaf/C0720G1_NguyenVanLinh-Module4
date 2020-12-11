@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:insert="layout::head">
 </head>
 
@@ -22,11 +23,11 @@
                         <div class="meta mb-1"><span class="date" th:text=" ${'Published '+listBlog.date}"></span></div>
                         <div class="intro" th:text="${listBlog.description}"></div>
                         <a class="more-link" th:href="@{/detail(id=${listBlog.id})}">Read more &rarr;</a>
-                        <a class="more-link" style="color: red" th:href="@{/delete(id=${listBlog.id})}">
+                        <a sec:authorize="hasRole('ADMIN')" class="more-link" style="color: red" th:href="@{/delete(id=${listBlog.id})}">
                             Delete Post
                             <i class="far fa-trash-alt"></i>
                         </a>
-                        <a class="more-link" th:href="@{/update(id=${listBlog.id})}">Edit Post&rarr;</a>
+                        <a sec:authorize="hasRole('ADMIN')" class="more-link" th:href="@{/update(id=${listBlog.id})}">Edit Post&rarr;</a>
                     </div><!--//media-body-->
                 </div><!--//media-->
             </div><!--//item-->

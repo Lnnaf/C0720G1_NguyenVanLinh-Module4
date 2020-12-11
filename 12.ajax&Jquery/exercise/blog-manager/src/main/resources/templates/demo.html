@@ -5,19 +5,35 @@
     <title>Title</title>
 </head>
 <body>
-<p id="text"> aaaaaaaaaaa</p>
+<input id="input" type="text">
 <button id="btn-click"> click me</button>
-<button id = "btn-green"> click changer green</button>
+<p id="name">Duy ngu</p>
+<p id="show"></p>
+<img id="img_url" src="" alt="">
 <script src="assets/js/jquery-3.5.1.min.js" >
 </script>
 <script>
     $("#btn-click").click(function() {
-        $("#text").css("color", "red");
-        console.log('ok');
+        console.log($('#input').val());
+        let id = $('#input').val();
+        $.ajax({
+            type: "GET", //GET, DELETE, PUT...
+            url: "/apiBlog/detail/"+id,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            // dataType: "text",
+            success: function(blog){
+                console.log(blog)
+                $('#name').text();
+                $('#img_url').attr('src',blog.img_url);
+                $('#show').text( $('#name').text());
+            },
+            error: function(result) {
+                console.log('error')
+            }
+        });
     });
-    $('#btn-green').click(function () {
-        $('#text').css('font-size','50pt');
-    })
+
 </script>
 
 

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head th:fragment="head">
     <title> Blog Technology </title>
     <!-- Meta -->
@@ -34,7 +36,7 @@
 
 <body>
 <header th:fragment="header" class="header text-center">
-    <h1 class="blog-name pt-lg-4 mb-0"><a th:text="${principal}"></a></h1>
+    <h1 class="blog-name pt-lg-4 mb-0"><span sec:authentication="name"></span></h1>
 
     <nav class="navbar navbar-expand-lg navbar-dark" >
 
@@ -45,7 +47,8 @@
         <div id="navigation" class="collapse navbar-collapse flex-column" >
             <div class="profile-section pt-3 pt-lg-0">
                 <img class="profile-image mb-3 rounded-circle mx-auto" src="img/my_img.jpg" alt="image" >
-                <div class="bio mb-5"><a th:href="@{/logout}">Logout!!</a></div>
+                <div sec:authorize="isAuthenticated()" class="bio mb-5"><a id="logout" type="button">Logout!!</a></div>
+                <div sec:authorize="isAnonymous()" class="bio mb-5"><a id="login" th:href="@{/login}" type="button">Login here !</a></div>
                 <div class="bio mb-3">Hi, my name is Van Linh. I studying at CodeGym, this project I made just for my studying, not for sale, thanks guys !.<br><a th:href="@{https://www.facebook.com/lnnaf/}">Find out more about me</a></div><!--//bio-->
                 <ul class="social-list list-inline py-3 mx-auto">
                     <li class="list-inline-item"><a th:href="@{https://twitter.com/LinhIT3}"><i class="fab fa-twitter fa-fw"></i></a></li>
@@ -64,7 +67,7 @@
             </ul>
 
             <div class="my-2 my-md-3">
-                <a class="btn btn-primary" th:href="@{/admin}">Go Admin</a>
+                <a sec:authorize="hasRole('ADMIN')" class="btn btn-primary" th:href="@{/admin}">Go Admin</a>
             </div>
         </div>
     </nav>
@@ -118,9 +121,52 @@
     <script src="assets/plugins/jquery-3.3.1.min.js"></script>
     <script src="assets/plugins/popper.min.js"></script>
     <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/vendor/sweetalert2.all.min.js"></script>
 
     <!-- Style Switcher (REMOVE ON YOUR PRODUCTION SITE) -->
     <script src="assets/js/demo/style-switcher.js"></script>
+    <script>
+        $('#logout').click(function () {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            });
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yesssssssss',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                        'Success!',
+                        'Your was Logout !.',
+                        'success'
+                    ).then(function() {
+                        window.location = "http://localhost:8080/logout";
+                    });
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Your still Login with us :)',
+                        'error'
+                    )
+                }
+            })
+        });
+
+    </script>
 </div>
 <div th:fragment="footer">
     <style>
