@@ -1,18 +1,31 @@
 package com.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Set;
 
 @Entity(name = "employee")
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer employeeId;
+    @NotBlank
     private String employeeName;
+    @NotBlank
     private String employeeBirthday;
+    @NotBlank
     private String employeeIdCard;
+    @NotNull
+    @PositiveOrZero
     private Double employeeSalary;
+    @NotBlank
     private String employeePhone;
+    @NotBlank
+    private String employeeEmail;
     private String employeeAddress;
     @ManyToOne
     @JoinColumn(name = "position_id", nullable = false)
@@ -27,6 +40,7 @@ public class Employee {
     @JoinColumn(name = "username", nullable = false)
     private WebUser webUser;
     @OneToMany(mappedBy = "employee")
+    @JsonBackReference
     private Set<Contract> contracts;
 
     public Employee() {
@@ -78,6 +92,14 @@ public class Employee {
 
     public void setEmployeePhone(String employeePhone) {
         this.employeePhone = employeePhone;
+    }
+
+    public String getEmployeeEmail() {
+        return employeeEmail;
+    }
+
+    public void setEmployeeEmail(String employeeEmail) {
+        this.employeeEmail = employeeEmail;
     }
 
     public String getEmployeeAddress() {

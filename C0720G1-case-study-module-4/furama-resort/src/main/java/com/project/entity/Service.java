@@ -1,16 +1,20 @@
 package com.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.project.generator.GeneratorIdPrefix;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Set;
 
 @Entity(name = "service")
 public class Service {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "service")
 //    @GenericGenerator(
 //            name = "service",
@@ -19,13 +23,33 @@ public class Service {
 //                    @Parameter(name = GeneratorIdPrefix.INCREMENT_PARAM, value = ""),
 //                    @Parameter(name = GeneratorIdPrefix.VALUE_PREFIX_PARAMETER, value = "DV-"),
 //                    @Parameter(name = GeneratorIdPrefix.NUMBER_FORMAT_PARAMETER, value = "%04d")})
+    @GeneratedValue(generator = "sequence-generator")
+    @GenericGenerator(
+            name = "sequence-generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @Parameter(name = "sequence_name", value = "user_sequence"),
+                    @Parameter(name = "initial_value", value = "1000"),
+                    @Parameter(name = "increment_size", value = "1")
+            }
+    )
     private Integer serviceId;
     private String serviceName;
+    @NotNull
+    @PositiveOrZero
     private Integer serviceArea;
+    @NotNull
+    @PositiveOrZero
     private Double serviceCost;
+    @NotNull
+    @PositiveOrZero
     private Integer serviceMaxPeople;
     private String standardRoom, descriptionOtherConvenience;
+    @NotNull
+    @PositiveOrZero
     private Double poolArea;
+    @NotNull
+    @PositiveOrZero
     private Integer numOfFloor;
     @ManyToOne
     @JoinColumn(name = "service_type_id", nullable = false)
@@ -34,6 +58,7 @@ public class Service {
     @JoinColumn(name = "rent_type_id", nullable = false)
     private RentType rentType;
     @OneToMany(mappedBy = "service")
+    @JsonBackReference
     private Set<Contract> contracts;
 
     public Service() {

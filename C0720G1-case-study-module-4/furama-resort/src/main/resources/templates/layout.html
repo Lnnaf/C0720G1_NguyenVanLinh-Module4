@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head">
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>srtdash - Ecommerce Dashboard</title>
+    <title>Furama Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="/../../assets/images/icon/favicon.ico">
     <link rel="stylesheet" href="/../../assets/css/bootstrap.min.css">
@@ -27,6 +28,18 @@
 </head>
 
 <body>
+<span th:fragment="required" style="color: red">*</span>
+<h4 th:fragment="userName" class="user-name dropdown-toggle" data-toggle="dropdown" >
+    <span  sec:authorize="isAuthenticated()" sec:authentication="principal.username"></span><i
+        class="fa fa-angle-down"></i></h4>
+
+    <div class="dropdown-menu" th:fragment="login-out" >
+        <a class="dropdown-item" href="#">Message</a>
+        <a class="dropdown-item" href="#">Settings</a>
+
+        <a sec:authorize="isAuthenticated()" class="dropdown-item" th:href="@{/logout}">Log Out</a>
+        <a sec:authorize="isAnonymous()" class="dropdown-item" th:href="@{/login}">Log In</a>
+    </div>
     <!-- sidebar menu area start -->
     <div class="sidebar-menu" th:fragment="side-bar">
         <div class="sidebar-header">
@@ -38,20 +51,27 @@
             <div class="menu-inner">
                 <nav>
                     <ul class="metismenu" id="menu">
-                        <li class="active">
-                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-dashboard"></i><span>dashboard</span></a>
+                        <li>
+                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-flag"></i><span>Employee</span></a>
                             <ul class="collapse">
-                                <li class="active"><a th:href="@{/}">List Book</a></li>
-                                <li ><a href="index.html">List Library Card</a></li>
+                                <li><a th:href="@{/employee/customer-manager}">Customer Manager</a></li>
+                                <li><a th:href="@{/service/service-manager}">Service</a></li>
+                                <li><a th:href="@{/service/contract}">Contract</a></li>
+                                <li><a th:href="@{/service/attach-service}">Attach Service</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i><span>
-                               Action
+                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-crown"></i><span>
+                                Manager
                                     </span></a>
                             <ul class="collapse">
-                                <li><a th:href="@{/book/create}">Add new Book</a></li>
-                                <li><a th:href="@{/book/list-bill}">Return Book</a></li>
+                                <li><a th:href="@{/employee-manager}">Employee Manager</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-lock"></i><span>Admin</span></a>
+                            <ul class="collapse">
+                                <li><a th:href="@{/}">Admin Dashboard</a></li>
                             </ul>
                         </li>
                             </ul>
@@ -67,6 +87,7 @@
 
     <!-- jquery latest version -->
     <script src="/../../assets/js/vendor/jquery-2.2.4.min.js"></script>
+    <script src="/../../assets/js/vendor/sweetalert2.all.min.js"></script>
     <!-- bootstrap 4 js -->
     <script src="/../../assets/js/popper.min.js"></script>
     <script src="/../../assets/js/bootstrap.min.js"></script>

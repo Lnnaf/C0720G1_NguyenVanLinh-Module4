@@ -1,39 +1,63 @@
 package com.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.project.generator.GeneratorIdPrefix;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Set;
 
 @Entity(name = "customer")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
+//    @GenericGenerator(
+//            name = "book_seq",
+//            strategy = "java/com/project/entity/GeneratorIdPrefix.java",
+//            parameters = {
+//                    @Parameter(name = GeneratorIdPrefix.INCREMENT_PARAM, value = ""),
+//                    @Parameter(name = GeneratorIdPrefix.VALUE_PREFIX_PARAMETER, value = "KH-"),
+//                    @Parameter(name = GeneratorIdPrefix.NUMBER_FORMAT_PARAMETER, value = "%04d") })
+    @GeneratedValue(generator = "sequence-generator")
     @GenericGenerator(
-            name = "book_seq",
-            strategy = "java/com/project/entity/GeneratorIdPrefix.java",
+            name = "sequence-generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
-                    @Parameter(name = GeneratorIdPrefix.INCREMENT_PARAM, value = ""),
-                    @Parameter(name = GeneratorIdPrefix.VALUE_PREFIX_PARAMETER, value = "KH-"),
-                    @Parameter(name = GeneratorIdPrefix.NUMBER_FORMAT_PARAMETER, value = "%04d") })
-    private String customerId;
+                    @Parameter(name = "sequence_name", value = "user_sequence"),
+                    @Parameter(name = "initial_value", value = "1000"),
+                    @Parameter(name = "increment_size", value = "1")
+            }
+    )
+    private Integer customerId;
     @ManyToOne
     @JoinColumn(name = "customer_type_id", nullable = false)
     private CustomerType customerType;
-    private String customerName,customerBirthDay;
-    private String customerGender,customerIdCard,customerPhone,customerEmail,customerAddress;
-    @OneToMany(mappedBy = "customer")
+    @NotBlank(message = "Name may not be blank")
+    private String customerName;
+    @NotBlank(message = "Birthday may not be blank")
+    private String customerBirthDay;
+    @Pattern(regexp = "(84|0[3|5|7|8|9])+([0-9]{8})\\b", message = "Wrong numberphone format")
+    private String customerPhone;
+    @NotNull
+    @Email
+    private String customerEmail;
+    @Pattern(regexp = "\\d{9}",message = "wrong ID Card")
+    private String customerIdCard;
+    private String customerGender, customerAddress;
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    @JsonBackReference
     private Set<Contract> contracts;
+
     public Customer() {
     }
 
-    public String getCustomerId() {
+    public Integer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 

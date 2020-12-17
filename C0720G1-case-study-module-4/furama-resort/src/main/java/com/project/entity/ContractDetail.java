@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity(name = "contract_detail")
 public class ContractDetail {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer contractDetailId;
     private Integer quantity;
     @ManyToOne

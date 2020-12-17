@@ -1,18 +1,24 @@
 package com.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Set;
 
 @Entity(name = "attach_service")
 public class AttachService {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO )
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Integer attachServiceId;
     private String attachServiceName;
+    @PositiveOrZero
     private Double attachServiceCost;
+    @PositiveOrZero
     private Integer attachServiceUnit;
     private String attachServiceStatus;
     @OneToMany(mappedBy = "attachService")
+    @JsonBackReference
     private Set<ContractDetail>contractDetails;
 
     public AttachService() {

@@ -1,0 +1,389 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout.html::head">
+</head>
+
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<!-- preloader area start -->
+<div id="preloader">
+    <div class="loader"></div>
+</div>
+<!-- preloader area end -->
+<!-- page container area start -->
+<div class="page-container">
+    <!-- sidebar menu area start -->
+    <div th:replace="layout::side-bar">
+
+    </div>
+    <!-- sidebar menu area end -->
+    <!-- main content area start -->
+    <div class="main-content">
+        <!-- header area start -->
+        <div class="header-area">
+            <div class="row align-items-center">
+                <!-- nav and search button -->
+                <div class="col-md-6 col-sm-8 clearfix">
+                    <div class="nav-btn pull-left">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="search-box pull-left">
+                        <form th:action="@{/employee/customer-manager}">
+                            <input type="text" name="search" placeholder="Search..." required>
+                            <button type="submit"><i class="ti-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+                <!-- profile info & task notification -->
+                <div class="col-md-6 col-sm-4 clearfix">
+                    <ul class="notification-area pull-right">
+                        <li class="dropdown">
+                            <i class="fa fa-shopping-cart dropdown-toggle" data-toggle="dropdown"><span>3</span></i>
+                            <div class="dropdown-menu notify-box nt-enveloper-box">
+                                <span class="notify-title">You have 3 new notifications <a href="#">view all</a></span>
+                                <div class="nofity-list">
+                                    <a href="#" class="notify-item">
+                                        <div class="notify-thumb">
+                                            <img src="assets/images/author/author-img3.jpg" alt="image">
+                                        </div>
+                                        <div class="notify-text">
+                                            <p>Aglae Mayer</p>
+                                            <span class="msg">I missed you so much...</span>
+                                            <span>3:15 PM</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- header area end -->
+        <!-- page title area start -->
+        <div class="page-title-area">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <div class="breadcrumbs-area clearfix">
+                        <h4 class="page-title pull-left">Customer Manager</h4>
+                        <ul class="breadcrumbs pull-left">
+                            <li><a th:href="@{/}">Home</a></li>
+                            <li><span>Customer manager</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 clearfix">
+                    <div class="user-profile pull-right">
+                        <img class="avatar user-thumb" src="/../../assets/images/author/avatar.png" alt="avatar">
+                        <h4 th:replace="layout::userName"></h4>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Message</a>
+                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item" th:href="@{/logout}">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- page title area end -->
+        <div class="main-content-inner">
+            <!-- order list area start -->
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h4 class="header-title">List Customer</h4>
+                    <div class="card-area">
+                        <!--table start-->
+                        <div class="card-body">
+                            <button class="btn decrement-button" type="button" data-toggle="modal" data-target="#modal" >Add New Customer <i class="fa fa-user-plus"></i></button>
+                            <button id="btn-call-using-service" class="btn decrement-button" type="button" data-toggle="modal" data-target="#modalUsingService" >Customer Using Service <i class="fa fa-react"></i></button>
+                            <!-- Modal -->
+                            <!--Model End-->
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table table-hover text-center">
+                                        <thead class="text-uppercase">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Birthday</th>
+                                            <th scope="col">Gender</th>
+                                            <th scope="col">ID Card</th>
+                                            <th scope="col">Customer Type</th>
+                                            <th scope="col">Phone</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Address</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr  th:each="customer:${listCustomer}">
+                                            <td class="get-id" th:text="${customer.customerId}"></td>
+                                            <td th:text="${customer.customerName}"></td>
+                                            <td th:text="${customer.customerBirthDay}"></td>
+                                            <td th:text="${customer.customerGender}"></td>
+                                            <td th:text="${customer.customerIdCard}"></td>
+                                            <td th:class="'customer-type-'+${customer.customerType.customerTypeId}"
+                                                th:text="${customer.customerType.customerTypeName}"></td>
+                                            <td th:text="${customer.customerPhone}"></td>
+                                            <td th:text="${customer.customerEmail}"></td>
+                                            <td th:text="${customer.customerAddress}"></td>
+                                            <td id="test">
+                                                <a th:href="@{/employee/delete/{id}(id=${customer.customerId})}" class="text-danger deleteCustomer" data-toggle="tooltip"
+                                                   data-placement="top" title="Delete"><i class="ti-trash"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="" class="text-secondary editCustomer"  data-toggle="tooltip"
+                                                   data-placement="top" title="Edit!" th:data="${customer.customerId}"><i class="fa fa-edit"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Detail!"><i class="fa fa-info"></i></a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div style="float:right">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                                <a class="page-link" th:if="${listCustomer.hasPrevious()}" th:href="@{/employee/customer-manager/(page=${listCustomer.number - 1})}" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" th:if="${listCustomer.hasPrevious()}" th:href="@{/employee/customer-manager/(page=${listCustomer.number -1})}"
+                                                                     th:text="${listCustomer.number - 1}"></a></li>
+                                            <li class="page-item"><a class="page-link" th:href="@{/employee/customer-manager/(page=${listCustomer.number})}"
+                                                                     th:text="${listCustomer.number}"></a></li>
+                                            <li class="page-item"><a class="page-link" th:if="${listCustomer.hasNext()}" th:href="@{/employee/customer-manager/(page=${listCustomer.number + 1})}"
+                                                                     th:text="${listCustomer.number + 1}"></a></li>
+
+                                            <li class="page-item">
+                                                <a class="page-link" th:if="${listCustomer.hasNext()}" th:href="@{/employee/customer-manager/(page=${listCustomer.number + 1})}" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table end-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- main content area end -->
+    <!-- modal area start-->
+        <!-- modal create start-->
+
+    <div class="modal fade" id="modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalCreate" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Customer</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-create-body">
+                        <!--Form Create New Customer -->
+                        <div class="container">
+                        <form id="form-create"  th:action="@{/employee/create}" method="post" th:object="${customerObj}">
+                            <input id="flag" type="text" th:data="${flag}" hidden>
+                            <div class="form-group">
+                                <label for="name1">Full Name<span th:replace="layout::required"></span></label>
+                                <input th:field="*{customerName}" type="text" class="form-control" id="name1">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('customerName')}" th:errors="*{customerName}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="birthday1">Birthday<span th:replace="layout::required"></span></label>
+                                <input th:field="*{customerBirthDay}" type="date" class="form-control" id="birthday1">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('customerBirthDay')}" th:errors="*{customerBirthDay}"></p>
+                            </div>
+                            <div class="form-group" >
+                                <label>Gender<span th:replace="layout::required"></span></label><br>
+                                <div class="form-check form-check-inline">
+                                    <input th:field="*{customerGender}" class="form-check-input" type="radio" name="inlineRadioOptions" id="radio11" value="Male">
+                                    <label class="form-check-label" for="radio11">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline" >
+                                    <input th:field="*{customerGender}" class="form-check-input" type="radio" name="inlineRadioOptions" id="radio22" value="Female">
+                                    <label class="form-check-label" for="radio22">Female</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="select">Customer Type</label>
+                                <select class="form-control" id="select1" th:field="*{customerType.customerTypeId}" >
+                                    <option th:each="customerType:${listCustomerType}" th:text="${customerType.customerTypeName}" th:value="${customerType.customerTypeId}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="id-card">ID Card<span th:replace="layout::required"></span></label>
+                                <input th:field="*{customerIdCard}" type="number" class="form-control" id="id-card1">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('customerIdCard')}" th:errors="*{customerIdCard}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone<span th:replace="layout::required"></span></label>
+                                <input th:field="*{customerPhone}" type="number" class="form-control" id="phone1">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('customerPhone')}" th:errors="*{customerPhone}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input th:field="*{customerEmail}" type="email" class="form-control" id="email1">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('customerEmail')}" th:errors="*{customerEmail}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input th:field="*{customerAddress}" type="text" class="form-control" id="address1">
+                            </div>
+                        </form>
+                        </div>
+                        <!-- Form End-->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="btn-create-form" type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="modal fade" id="modalEdit" data-backdrop="static" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" >Edit Customer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-create-body">
+                    <div class="container">
+                        <!--Form Create New Customer -->
+                        <form id="form-edit"  th:action="@{/employee/update}" method="post" th:object="${customerObj}">
+                                <input th:field="*{customerId}" type="text" class="form-control" id="id" hidden>
+
+                            <div class="form-group">
+                                <label for="name">Full Name <span th:replace="layout::required"></span></label>
+                                <input th:field="*{customerName}" type="text" class="form-control" id="name">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('customerName')}" th:errors="*{customerName}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="birthday">Birthday<span th:replace="layout::required"></span></label>
+                                <input th:field="*{customerBirthDay}" type="date" class="form-control" id="birthday">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('customerBirthDay')}" th:errors="*{customerBirthDay}"></p>
+                            </div>
+                            <div class="form-group" >
+                                <label>Gender<span th:replace="layout::required"></span></label><br>
+                                <div class="form-check form-check-inline">
+                                    <input th:field="*{customerGender}" class="form-check-input" type="radio" name="inlineRadioOptions" id="radio1" value="Male">
+                                    <label class="form-check-label" for="radio1">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline" >
+                                    <input th:field="*{customerGender}" class="form-check-input" type="radio" name="inlineRadioOptions" id="radio2" value="Female">
+                                    <label class="form-check-label" for="radio2">Female</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="select">Customer Type</label>
+                                <select class="form-control" id="select" th:field="*{customerType.customerTypeId}" >
+                                    <option th:each="customerType:${listCustomerType}" th:text="${customerType.customerTypeName}" th:value="${customerType.customerTypeId}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="id-card">ID Card<span th:replace="layout::required"></span></label>
+                                <input th:field="*{customerIdCard}" type="number" class="form-control" id="id-card">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('customerIdCard')}" th:errors="*{customerIdCard}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone<span th:replace="layout::required"></span></label>
+                                <input th:field="*{customerPhone}" type="number" class="form-control" id="phone">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('customerPhone')}" th:errors="*{customerPhone}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input th:field="*{customerEmail}" type="email" class="form-control" id="email">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('customerEmail')}" th:errors="*{customerEmail}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input th:field="*{customerAddress}" type="text" class="form-control" id="address">
+                            </div>
+                        </form>
+                        <!-- Form End-->
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="btn-edit-form" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalUsingService" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="single-table">
+                    <div class="table-responsive">
+                        <table class="table table-hover text-center">
+                            <thead class="text-uppercase">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Birthday</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col">ID Card</th>
+                                <th scope="col">Customer Type</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Address</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr  th:each="customer:${listCustomerUsingService}">
+                                <td class="get-id" th:text="${customer.customer.customerId}"></td>
+                                <td th:text="${customer.customer.customerName}"></td>
+                                <td th:text="${customer.customer.customerBirthDay}"></td>
+                                <td th:text="${customer.customer.customerGender}"></td>
+                                <td th:text="${customer.customer.customerIdCard}"></td>
+                                <td th:class="'customer-type-'+${customer.customer.customerType.customerTypeId}"
+                                    th:text="${customer.customer.customerType.customerTypeName}"></td>
+                                <td th:text="${customer.customer.customerPhone}"></td>
+                                <td th:text="${customer.customer.customerEmail}"></td>
+                                <td th:text="${customer.customer.customerAddress}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+        <!-- modal create end-->
+    <!-- modal area end-->
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2020. All right reserved. Template by Lyn*.</p>        </div>
+    </footer>
+    <!-- footer area end-->
+</div>
+<!-- page container area end -->
+<div th:replace="layout::lib-script">
+
+</div>
+<!-- Script -->
+<script src="/../../assets/js/vendor/alert-custom/alert-custom.js"></script>
+</body>
+
+</html>

@@ -1,5 +1,7 @@
 package com.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -9,9 +11,11 @@ public class WebUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String username;
     private String password;
-    @ManyToMany(mappedBy = "webUsers")
-    Set<Role> roles;
     @OneToMany(mappedBy = "webUser")
+    @JsonBackReference
+    private Set<UserRole> userRole;
+    @OneToMany(mappedBy = "webUser")
+    @JsonBackReference
     Set<Employee> employees;
 
     public WebUser() {
@@ -33,12 +37,12 @@ public class WebUser {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<UserRole> getUserRole() {
+        return userRole;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setUserRole(Set<UserRole> userRole) {
+        this.userRole = userRole;
     }
 
     public Set<Employee> getEmployees() {

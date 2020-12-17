@@ -1,0 +1,373 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout.html::head">
+</head>
+
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<!-- preloader area start -->
+<div id="preloader">
+    <div class="loader"></div>
+</div>
+<!-- preloader area end -->
+<!-- page container area start -->
+<div class="page-container">
+    <!-- sidebar menu area start -->
+    <div th:replace="layout::side-bar">
+
+    </div>
+    <!-- sidebar menu area end -->
+    <!-- main content area start -->
+    <div class="main-content">
+        <!-- header area start -->
+        <div class="header-area">
+            <div class="row align-items-center">
+                <!-- nav and search button -->
+                <div class="col-md-6 col-sm-8 clearfix">
+                    <div class="nav-btn pull-left">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="search-box pull-left">
+                        <form th:action="@{/employee-manager}">
+                            <input type="text" name="search" placeholder="Search..." required>
+                            <button type="submit"><i class="ti-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+                <!-- profile info & task notification -->
+                <div class="col-md-6 col-sm-4 clearfix">
+                    <ul class="notification-area pull-right">
+                        <li class="dropdown">
+                            <i class="fa fa-shopping-cart dropdown-toggle" data-toggle="dropdown"><span>3</span></i>
+                            <div class="dropdown-menu notify-box nt-enveloper-box">
+                                <span class="notify-title">You have 3 new notifications <a href="#">view all</a></span>
+                                <div class="nofity-list">
+                                    <a href="#" class="notify-item">
+                                        <div class="notify-thumb">
+                                            <img src="assets/images/author/author-img3.jpg" alt="image">
+                                        </div>
+                                        <div class="notify-text">
+                                            <p>Aglae Mayer</p>
+                                            <span class="msg">I missed you so much...</span>
+                                            <span>3:15 PM</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- header area end -->
+        <!-- page title area start -->
+        <div class="page-title-area">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <div class="breadcrumbs-area clearfix">
+                        <h4 class="page-title pull-left">Employee Manager</h4>
+                        <ul class="breadcrumbs pull-left">
+                            <li><a th:href="@{/}">Home</a></li>
+                            <li><span>Employee manager</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 clearfix">
+                    <div class="user-profile pull-right">
+                        <img class="avatar user-thumb" src="/../../assets/images/author/avatar.png" alt="avatar">
+                        <h4 th:replace="layout::userName"></h4>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Message</a>
+                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item" th:href="@{/logout}">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- page title area end -->
+        <div class="main-content-inner">
+            <!-- order list area start -->
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h4 class="header-title">List Employee</h4>
+                    <div class="card-area">
+                        <!--table start-->
+                        <div class="card-body">
+                            <button class="btn decrement-button" type="button" data-toggle="modal" data-target="#modal" >Add New Employee <i class="fa fa-user-plus"></i></button>
+                            <!-- Modal -->
+                            <!--Model End-->
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table table-hover text-center">
+                                        <thead class="text-uppercase">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Birthday</th>
+                                            <th scope="col">ID Card</th>
+                                            <th scope="col">Salary</th>
+                                            <th scope="col">Phone</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Address</th>
+                                            <th scope="col">Position</th>
+                                            <th scope="col">Education</th>
+                                            <th scope="col">Division</th>
+                                            <th scope="col">Username</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr  th:each="employee:${listEmployee}">
+                                            <td th:text="${employee.employeeId}"></td>
+                                            <td th:text="${employee.employeeName}"></td>
+                                            <td th:text="${employee.employeeBirthday}"></td>
+                                            <td th:text="${employee.employeeIdCard}"></td>
+                                            <td th:text="${employee.employeeSalary}"></td>
+                                            <td th:text="${employee.employeePhone}"></td>
+                                            <td th:text="${employee.employeeEmail}"></td>
+                                            <td th:text="${employee.employeeAddress}"></td>
+                                            <td th:text="${employee.position.positionName}"></td>
+                                            <td th:text="${employee.educationDegree.educationDegreeName}"></td>
+                                            <td th:text="${employee.division.divisionName}"></td>
+                                            <td th:text="${employee.webUser.username}"></td>
+                                            <td id="test">
+                                                <a th:href="@{/employee-delete/{id}(id=${employee.employeeId})}" class="text-danger deleteEmployee" data-toggle="tooltip"
+                                                   data-placement="top" title="Delete"><i class="ti-trash"></i></a>
+                                            </td>
+                                            <td>
+                                                <a th:href="@{/employee-update/}" class="text-secondary editEmployee" th:data="${employee.employeeId}"  data-toggle="tooltip"
+                                                   data-placement="top" title="Edit!"><i class="fa fa-edit"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Detail!"><i class="fa fa-info"></i></a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div style="float:right">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                                <a class="page-link" th:if="${listEmployee.hasPrevious()}" th:href="@{/employee-manager/(page=${listEmployee.number - 1})}" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" th:if="${listEmployee.hasPrevious()}" th:href="@{/employee-manager/(page=${listEmployee.number -1})}"
+                                                                     th:text="${listEmployee.number - 1}"></a></li>
+                                            <li class="page-item"><a class="page-link" th:href="@{/employee-manager/(page=${listEmployee.number})}"
+                                                                     th:text="${listEmployee.number}"></a></li>
+                                            <li class="page-item"><a class="page-link" th:if="${listEmployee.hasNext()}" th:href="@{/employee-manager/(page=${listEmployee.number + 1})}"
+                                                                     th:text="${listEmployee.number + 1}"></a></li>
+
+                                            <li class="page-item">
+                                                <a class="page-link" th:if="${listEmployee.hasNext()}" th:href="@{/employee-manager/(page=${listEmployee.number + 1})}" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table end-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- main content area end -->
+    <!-- modal area start-->
+    <!-- modal create start-->
+    <div class="modal fade" id="modal" data-backdrop="static" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" >Create Employee</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-create-body">
+                    <div class="container">
+<!--                        Form Create New Employee -->
+                        <form id="form-create-employee"  th:action="@{/employee-create}" method="post" th:object="${employeeObj}">
+                            <input th:field="*{employeeId}" type="text" class="form-control" id="id" hidden>
+                            <input id="flag" type="text" th:data="${flag}" hidden>
+                            <div class="form-group">
+                                <label for="name">Name<span th:replace="layout::required"></label>
+                                <input th:field="*{employeeName}" type="text" class="form-control" id="name">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('employeeName')}" th:errors="*{employeeName}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="birthday">Birthday<span th:replace="layout::required"></label>
+                                <input th:field="*{employeeBirthday}" type="date" class="form-control" id="birthday">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('employeeBirthday')}" th:errors="*{employeeBirthday}"></p>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="id-card">ID Card<span th:replace="layout::required"></label>
+                                <input th:field="*{employeeIdCard}" type="number" class="form-control" id="id-card">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('employeeIdCard')}" th:errors="*{employeeIdCard}"></p>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="salary">Salary<span th:replace="layout::required"></label>
+                                <input th:field="*{employeeSalary}" type="number" class="form-control" id="salary">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('employeeSalary')}" th:errors="*{employeeSalary}"></p>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone<span th:replace="layout::required"></label>
+                                <input th:field="*{employeePhone}" type="text" class="form-control" id="phone">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('employeePhone')}" th:errors="*{employeePhone}"></p>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input th:field="*{employeeEmail}" type="email" class="form-control" id="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input th:field="*{employeeAddress}" type="text" class="form-control" id="address">
+                            </div>
+                            <div class="form-group">
+                                <label for="selectPosition">Position</label>
+                                <select class="form-control" id="selectPosition" th:field="*{position.positionId}" >
+                                    <option th:each="position:${listPosition}" th:text="${position.positionName}" th:value="${position.positionId}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectEducation">Education Degree</label>
+                                <select class="form-control" id="selectEducation" th:field="*{educationDegree.educationDegreeId}" >
+                                    <option th:each="education:${listEducation}" th:text="${education.educationDegreeName}" th:value="${education.educationDegreeId}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectDivision">Division</label>
+                                <select class="form-control" id="selectDivision" th:field="*{division.divisionId}" >
+                                    <option th:each="division:${listDivision}" th:text="${division.divisionName}" th:value="${division.divisionId}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Setup User Name</label>
+                                <input th:field="*{webUser.username}" type="text" class="form-control" id="username">
+                            </div>
+                        </form>
+                        <!-- Form End-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="btn-crete-employee" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalEditEmployee" data-backdrop="static" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" >Edit Employee</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-create-body">
+                    <div class="container">
+                        <!--Form Edit Employee -->
+                        <form id="form-edit-employee"  th:action="@{/employee-edit}" method="post" th:object="${employeeObj}">
+                            <input th:field="*{employeeId}" type="text" class="form-control" id="idEdit" hidden>
+
+                            <div class="form-group">
+                                <label for="nameEdit">Name<span th:replace="layout::required"></span></label>
+                                <input th:field="*{employeeName}" type="text" class="form-control" id="nameEdit">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('employeeName')}" th:errors="*{employeeName}"></p>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="birthdayEdit">Birthday<span th:replace="layout::required"></span></label>
+                                <input th:field="*{employeeBirthday}" type="date" class="form-control" id="birthdayEdit">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('employeeBirthday')}" th:errors="*{employeeBirthday}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="id-cardEdit">ID Card<span th:replace="layout::required"></span></label>
+                                <input th:field="*{employeeIdCard}" type="number" class="form-control" id="id-cardEdit">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('employeeIdCard')}" th:errors="*{employeeIdCard}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="salaryEdit">Salary<span th:replace="layout::required"></span></label>
+                                <input th:field="*{employeeSalary}" type="number" class="form-control" id="salaryEdit">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('employeeSalary')}" th:errors="*{employeeSalary}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="phoneEdit">Phone<span th:replace="layout::required"></span></label>
+                                <input th:field="*{employeePhone}" type="text" class="form-control" id="phoneEdit">
+                                <p class="errorMessage" th:if="${#fields.hasErrors('employeePhone')}" th:errors="*{employeePhone}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="emailEdit">Email</label>
+                                <input th:field="*{employeeEmail}" type="email" class="form-control" id="emailEdit">
+                            </div>
+                            <div class="form-group">
+                                <label for="addressEdit">Address</label>
+                                <input th:field="*{employeeAddress}" type="text" class="form-control" id="addressEdit">
+                            </div>
+                            <div class="form-group">
+                                <label for="selectPositionEdit">Position</label>
+                                <select class="form-control" id="selectPositionEdit" th:field="*{position.positionId}" >
+                                    <option th:each="position:${listPosition}" th:text="${position.positionName}" th:value="${position.positionId}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectEducationEdit">Education Degree<span th:replace="layout::required"></span></label>
+                                <select class="form-control" id="selectEducationEdit" th:field="*{educationDegree.educationDegreeId}" >
+                                    <option th:each="education:${listEducation}" th:text="${education.educationDegreeName}" th:value="${education.educationDegreeId}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectDivisionEdit">Division<span th:replace="layout::required"></span></label>
+                                <select class="form-control" id="selectDivisionEdit" th:field="*{division.divisionId}" >
+                                    <option th:each="division:${listDivision}" th:text="${division.divisionName}" th:value="${division.divisionId}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="usernameEdit">Setup User Name</label>
+                                <input th:field="*{webUser.username}" type="text" class="form-control" id="usernameEdit">
+                            </div>
+                        </form>
+                        <!-- Form End-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="btn-edit-employee-complete" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal create end-->
+    <!-- modal area end-->
+    <!-- footer area start-->
+    <footer>
+        <div class="footer-area">
+            <p>© Copyright 2020. All right reserved. Template by Lyn*.</p>        </div>
+    </footer>
+    <!-- footer area end-->
+</div>
+<!-- page container area end -->
+<div th:replace="layout::lib-script">
+
+</div>
+<!-- Script -->
+<script src="/../../assets/js/vendor/alert-custom/alert-custom.js"></script>
+</body>
+
+</html>

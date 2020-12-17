@@ -1,15 +1,18 @@
 package com.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity(name = "division")
 public class Division {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer divisionId;
     private String divisionName;
     @OneToMany(mappedBy = "division")
+    @JsonBackReference
     Set<Employee> employees;
 
     public Division() {

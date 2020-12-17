@@ -1,20 +1,19 @@
 package com.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity(name = "role")
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO )
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Integer roleId;
     private String roleName;
-    @ManyToMany()
-    @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "username"))
-    private Set<WebUser> webUsers;
+    @OneToMany(mappedBy ="role")
+    @JsonBackReference
+    private Set<UserRole> userRole;
 
     public Role() {
     }
@@ -35,11 +34,11 @@ public class Role {
         this.roleName = roleName;
     }
 
-    public Set<WebUser> getWebUsers() {
-        return webUsers;
+    public Set<UserRole> getUserRole() {
+        return userRole;
     }
 
-    public void setWebUsers(Set<WebUser> webUsers) {
-        this.webUsers = webUsers;
+    public void setUserRole(Set<UserRole> userRole) {
+        this.userRole = userRole;
     }
 }

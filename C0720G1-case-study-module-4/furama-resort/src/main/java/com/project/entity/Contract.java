@@ -1,15 +1,22 @@
 package com.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Set;
 
 @Entity(name = "contract")
 public class Contract {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer contractId;
-    private String contractStartDate,contractEndDate;
-    private Double contractDeposit,contractTotalMoney;
+    private String contractStartDate;
+    private String contractEndDate;
+    @NotNull
+    private Double contractDeposit;
+    @NotNull
+    private Double contractTotalMoney;
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
@@ -19,8 +26,10 @@ public class Contract {
     @ManyToOne
     @JoinColumn(name = "service_id", nullable = false)
     private Service service;
-@OneToMany(mappedBy = "contract")
-private Set<ContractDetail>contractDetails;
+    @OneToMany(mappedBy = "contract")
+    @JsonBackReference
+    private Set<ContractDetail> contractDetails;
+
     public Contract() {
     }
 

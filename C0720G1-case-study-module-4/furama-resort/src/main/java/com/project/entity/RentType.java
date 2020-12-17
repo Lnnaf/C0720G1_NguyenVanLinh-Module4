@@ -1,16 +1,19 @@
 package com.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity(name = "rent_type")
 public class RentType {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer rentTypeId;
     private String rentTypeName;
     private Double rentTypeCost;
     @OneToMany(mappedBy = "rentType")
+    @JsonBackReference
     private Set<Service> services;
 
     public RentType() {
